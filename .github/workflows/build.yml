@@ -1,19 +1,25 @@
-name: Deploy JSP to ECR
+name: Build and Push JSP Docker Image
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Ì†ΩÌ≥Å Show checked out directory structure
+        run: |
+          echo "Ì†ΩÌ≥ç Current directory:"
+          pwd
+          echo "Ì†ΩÌ≥Ç Top-level contents:"
+          ls -al
+          echo "Ì†ΩÌ≥Ç Recursively list everything:"
+          ls -R
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -23,10 +29,10 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
         id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Get Git short SHA
+      - name: Generate image tag from commit hash
         id: image
         run: |
           VERSION=$(echo ${{ github.sha }} | cut -c1-8)
@@ -38,9 +44,11 @@ jobs:
           ECR_REPOSITORY: web
           IMAGE_TAG: ${{ steps.image.outputs.version }}
         run: |
+          echo "Ì†ΩÌ¥ß Building image at: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           docker build \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-            -f ../Dr.Plan/Dockerfile \
-            ./Dr.Plan/Hospital_Search_Site
+            -f Dr.Plan/Dockerfile \
+            Dr.Plan/Hospital_Search_Site
+          echo "Ì†ΩÌ∫Ä Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
