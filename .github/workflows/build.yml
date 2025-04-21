@@ -38,6 +38,6 @@ jobs:
           ECR_REPOSITORY: web
           IMAGE_TAG: ${{ steps.image.outputs.version }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./Dr.Plan/
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./Dr.Plan/Dockerfile
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
