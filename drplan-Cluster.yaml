@@ -4,8 +4,8 @@ metadata:
   name: drplanCluster # 생성할 EKS 클러스터명
   region: ap-northeast-2 # 클러스터를 생성할 리전
   version: "1.25" #생략하면 최신 Kubernetes 버전이 자동사용
-vpc:
-  cidr: "192.168.0.0/16" # 클러스터에서 사용할 VPC의 CIDR
+# vpc:
+#   cidr: "192.168.0.0/16" # 클러스터에서 사용할 VPC의 CIDR
 managedNodeGroups:
   - name: node-group # 클러스터의 노드 그룹명
     instanceType: t3.medium # 클러스터 워커 노드의 인스턴스 타입

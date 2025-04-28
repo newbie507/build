@@ -13,7 +13,7 @@
         "ecr:UploadLayerPart",
         "ecr:CompleteLayerUpload"
       ],
-      "Resource": "arn:aws:ecr:${AWS_REGION}:${ACCOUNT_ID}:repository/demo-frontend"
+      "Resource": "arn:aws:ecr:${AWS_REGION}:${ACCOUNT_ID}:repository/drplan"
     },
     {
       "Sid": "GetAuthorizationToken",
