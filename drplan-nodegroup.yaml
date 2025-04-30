@@ -1,0 +1,35 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: drplan-eks-seoul
+  region: ap-northeast-2
+  version: "1.29"
+
+vpc:
+  id: vpc-086a3c72eb594497c
+  subnets:
+    private:
+      ap-northeast-2a:
+        id: subnet-0759c4e4bbd40f2df
+      ap-northeast-2c:
+        id: subnet-0182cf08c70cabd80
+
+managedNodeGroups:
+  - name: drplan-ng
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 3
+    volumeSize: 20
+    privateNetworking: true
+    ssh:
+      allow: true
+      publicKeyName: dltjgus
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        cloudWatch: true
+        autoScaler: true
+        imageBuilder: true
+
